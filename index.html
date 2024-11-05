@@ -1,0 +1,102 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animated Emoji</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="circle" id="circle">
+      <div class="eyes" id="eyes">
+        <div class="eye1">
+          <div class="pupil" id="pupil1"></div>
+        </div>
+        <div class="eye2">
+          <div class="pupil" id="pupil2"></div>
+        </div>
+      </div>
+
+      <div class="mouth" id="mouth">
+        <div class="mouth-in"></div>
+      </div>
+    </div>
+  </div>
+  
+  
+        
+   <script>
+    const circle = document.getElementById("circle");
+let mouth = document.getElementById("mouth");
+
+
+let pupils = document.getElementsByClassName("pupil");
+let pupilsArr = Array.from(pupils);
+
+circle.addEventListener('mousemove',function(event){
+  mouth.classList.add("mouth-close");
+  // const x = event.clientX;
+  // const y = event.clientY;
+  // pupil1.style.transform = `translate(${x - 175}px,${y-175}px)`;
+  // console.log(event.clientX,event.clientY);
+})
+
+circle.addEventListener('mouseout',function(event){
+  mouth.classList.remove("mouth-close");
+})
+
+// pupil movement
+let pupilStartPoint = -25;
+let pupilRange = 50;
+
+ // mouse X position
+let mouseXStartPoint = 0;
+let mouseXEndPoint = window.innerWidth;
+let currentXPosition = 0;
+let fracXValue = 0;
+
+// mouse Y position
+let mouseYStartPoint = 0;
+let mouseYEndPoint = window.innerHeight;
+let currentYPosition = 0;
+let fracYValue = 0;
+
+let mouseXRange = mouseXEndPoint - mouseXStartPoint;
+
+const mouseMove = (event) => {
+  currentXPosition = event.clientX - mouseXStartPoint;
+  fracXValue = currentXPosition / mouseXRange;
+
+  currentYPosition = event.clientY;
+  fracYValue = currentYPosition / mouseYEndPoint;
+
+  let pupilXCurrentPosition =  pupilStartPoint+ (fracXValue * pupilRange);
+
+  let pupilYCurrentPosition =pupilStartPoint + fracYValue * pupilRange
+
+  pupilsArr.forEach((curPupil) => {
+    curPupil.style.transform = `translate(${pupilXCurrentPosition}px,${pupilYCurrentPosition}px)`
+  })
+
+
+}
+
+const windowResize = (event) => {
+   mouseXEndPoint = window.innerWidth;
+   mouseYEndPoint = window.innerHeight;
+   mouseXRange = mouseXEndPoint - mouseXStartPoint;
+
+}
+
+window.addEventListener('resize', windowResize);
+
+window.addEventListener('mousemove',mouseMove);
+   </script>
+  <!-- <script src="script.js"></script> -->
+</body>
+</html>
